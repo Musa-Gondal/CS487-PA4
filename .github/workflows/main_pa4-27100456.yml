@@ -63,5 +63,5 @@ jobs:
         with:
           app-name: 'pa4-27100456'
           slot-name: 'Production'
-          package: .
+          package: ./webapp
           
