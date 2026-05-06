@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # PA4 Submission: TaskFlow Pipeline
 
@@ -23,7 +23,7 @@ Copy this file to <code style="color:#111827;background:#ddd6fe;padding:2px 4px;
 
 ## Evidence Rules
 
-- Use relative image paths, for example: `![AKS nodes](docs/aks-nodes.png)`.
+- Use relative image paths, for example: `![Evidence Rules](docs/aks-nodes.png)`.
 - Every image must have a 1–3 sentence description below it.
 - Azure Portal screenshots must show the resource name and enough page context to identify the service.
 - CLI screenshots must show the command and output.
@@ -35,16 +35,15 @@ Copy this file to <code style="color:#111827;background:#ddd6fe;padding:2px 4px;
 
 ### Evidence 1.1: Forked Repository
 
-<!-- PASTE SCREENSHOT: Your forked GitHub repo page showing your username/CS487-PA4 -->
-![Forked Repository](docs/task1-forked-repo.png)
-
+![Github repo](image-39.png)
 This is my personal fork of the PA4 starter repository. It contains the full starter structure including `webapp/`, `function-app/`, `validate-api/`, and `report-job/` directories. All subsequent work was committed and pushed to this fork.
 
 ---
 
 ### Evidence 1.2: App Service Overview
 
-<!-- PASTE SCREENSHOT: Azure Portal → App Service → Overview page showing webapp-<rollnum> with "Running" status -->
+![app service](image-38.png)
+
 ![App Service Overview](docs/task1-appservice-overview.png)
 
 The Web App `pa4-<rollnum>` is deployed in resource group `rg-sp26-<rollnum>` in the `<!-- region -->` region, running on the Node 20 LTS runtime stack. The status shows **Running** and the public URL is `https://pa4-<rollnum>.azurewebsites.net`.
@@ -53,15 +52,14 @@ The Web App `pa4-<rollnum>` is deployed in resource group `rg-sp26-<rollnum>` in
 
 ### Evidence 1.3: Deployment Center / GitHub Actions
 
-![alt text](image-1.png)
+![Deployment Center / GitHub Actions](docs/image-1.png)
 The Web App is connected to my GitHub fork via the Azure Deployment Center using GitHub Actions. The workflow automatically triggers on every push to the `main` branch and deploys the `webapp/` directory to App Service.
 
 ---
 
 ### Evidence 1.4: Live Web UI
 
-![alt text](image-2.png)
-![Live Web UI](docs/task1-live-ui.png)
+![Live Web UI](docs/image-2.png)
 
 The App Service is successfully serving the TaskFlow frontend. The Submit Order form and Status panel are visible. At this stage, submitting an order shows a configuration error because the Durable Function has not yet been wired up — this is expected behaviour.
 
@@ -71,7 +69,7 @@ The App Service is successfully serving the TaskFlow frontend. The Submit Order 
 
 ### Evidence 2.1: ACR Overview
 
-![alt text](image-3.png)
+![ACR Overview](docs/image-3.png)
 
 The Container Registry `pa4<rollnum>` is provisioned in resource group `rg-sp26-<rollnum>` using the **Basic** SKU. The admin user is enabled to allow image pulls from AKS and ACI using username/password credentials.
 
@@ -79,8 +77,9 @@ The Container Registry `pa4<rollnum>` is provisioned in resource group `rg-sp26-
 
 ### Evidence 2.2: Docker Builds
 
-<!-- PASTE SCREENSHOT: Terminal showing successful `docker build` output for all three images (validate-api, report-job, func-app) -->
-![Docker Builds](docs/task2-docker-builds.png)
+![Docker Builds](docs/image-4.png)
+![Docker Builds](docs/image-5.png)
+![Docker Builds](docs/image-6.png)
 
 Three images were built locally: `validate-api` from `validate-api/`, `report-job` from `report-job/`, and `func-app` from `function-app/`. All builds completed successfully with no errors.
 
@@ -88,7 +87,8 @@ Three images were built locally: `validate-api` from `validate-api/`, `report-jo
 
 ### Evidence 2.3: ACR Repositories
 
-<!-- PASTE SCREENSHOT: Azure Portal → ACR → Repositories list OR `az acr repository list` CLI output showing all three repos -->
+
+![ACR Repositories](docs/image-7.png)
 ![ACR Repositories](docs/task2-acr-repos.png)
 
 All three images have been successfully pushed to the registry: `validate-api:v1`, `report-job:v1`, and `func-app:v1`. The output of `az acr repository list` confirms their presence in `pa4<rollnum>`.
@@ -107,8 +107,8 @@ The orchestrator chains two activities sequentially. It first calls `validate_ac
 
 ### Evidence 3.2: Local Function Handler Listing
 
-<!-- PASTE SCREENSHOT: Terminal output of `func start` showing all four handlers registered: http_starter, my_orchestrator, validate_activity, report_activity -->
-![func start output](docs/task3-func-start.png)
+![Local Function Handler Listing](docs/image-8.png)
+
 
 The Durable Functions runtime discovered and registered all four handlers: the HTTP starter (`http_starter`), the orchestrator (`my_orchestrator`), and both activity functions (`validate_activity`, `report_activity`). This confirms the code is syntactically correct and the decorators are wired properly.
 
@@ -118,8 +118,7 @@ The Durable Functions runtime discovered and registered all four handlers: the H
 
 ### Evidence 4.1: Function App Container Configuration
 
-<!-- PASTE SCREENSHOT: Azure Portal → Function App → Deployment Center (or Configuration) showing the ACR image pa4<rollnum>.azurecr.io/func-app:v1 -->
-![Function App Container Config](docs/task4-funcapp-container.png)
+![Function App Container Configuration](docs/image-9.png)
 
 The Function App `pa4-<rollnum>` is configured to pull its container image from `pa4<rollnum>.azurecr.io/func-app:v1`. The hosting plan reuses the `pa4-<rollnum>` App Service Plan created in Task 1.
 
@@ -127,8 +126,7 @@ The Function App `pa4-<rollnum>` is configured to pull its container image from 
 
 ### Evidence 4.2: Orchestration Smoke Test
 
-<!-- PASTE SCREENSHOT: Terminal showing the `curl` POST to the HTTP starter and its JSON response containing `id` and `statusQueryGetUri` -->
-![Smoke Test curl](docs/task4-smoke-test-curl.png)
+![Orchestration Smoke Test](docs/image-10.png)
 
 The `curl` POST to the deployed HTTP starter returned a JSON response containing an `id` (the orchestration instance ID) and a `statusQueryGetUri`. This proves the Function App container is running and the Durable HTTP starter is reachable over HTTPS.
 
@@ -136,8 +134,7 @@ The `curl` POST to the deployed HTTP starter returned a JSON response containing
 
 ### Evidence 4.3: Expected Failed Status Before Downstream Wiring
 
-<!-- PASTE SCREENSHOT: Browser or curl output of the statusQueryGetUri showing runtimeStatus: "Failed" with an error about VALIDATE_URL -->
-![Expected Failed Status](docs/task4-expected-failure.png)
+![Expected Failed Status Before Downstream Wiring](docs/image-11.png)
 
 The orchestration shows `runtimeStatus: "Failed"` with an error indicating `VALIDATE_URL` is not configured. This is the expected checkpoint at this stage — it proves the orchestrator started, checkpointed, and attempted to invoke `validate_activity`, but could not reach the AKS validator because Task 5 has not yet been completed.
 
@@ -147,8 +144,7 @@ The orchestration shows `runtimeStatus: "Failed"` with an error indicating `VALI
 
 ### Evidence 5.1: AKS Cluster
 
-<!-- PASTE SCREENSHOT: Azure Portal → AKS → Overview page showing pa4-<rollnum> with Succeeded provisioning state -->
-![AKS Cluster Overview](docs/task5-aks-overview.png)
+![AKS Cluster](docs/image-13.png)
 
 The AKS cluster `pa4-<rollnum>` is provisioned in resource group `rg-sp26-<rollnum>` in the `<!-- region -->` region with **1 node** of size `Standard_B2s`. The provisioning state shows **Succeeded**.
 
@@ -156,8 +152,8 @@ The AKS cluster `pa4-<rollnum>` is provisioned in resource group `rg-sp26-<rolln
 
 ### Evidence 5.2: Kubernetes Nodes and Pods
 
-<!-- PASTE SCREENSHOT: Terminal showing output of `kubectl get nodes` and `kubectl get pods` -->
-![Nodes and Pods](docs/task5-nodes-pods.png)
+![Kubernetes Nodes and Pods](docs/image-12.png)
+![Kubernetes Nodes and Pods](docs/image-14.png)
 
 `kubectl get nodes` shows one node in `Ready` state. `kubectl get pods` shows the `validate-api` pod is scheduled and in `Running` status, confirming the Deployment was applied successfully.
 
@@ -165,8 +161,7 @@ The AKS cluster `pa4-<rollnum>` is provisioned in resource group `rg-sp26-<rolln
 
 ### Evidence 5.3: Kubernetes Service
 
-<!-- PASTE SCREENSHOT: Terminal showing output of `kubectl get service validate-service` with an assigned EXTERNAL-IP -->
-![Kubernetes Service](docs/task5-k8s-service.png)
+![Kubernetes Service](docs/image-15.png)
 
 The `validate-service` of type `LoadBalancer` has been assigned an external IP by Azure. Port `8080` is exposed publicly, which is the endpoint the Durable Function calls for order validation.
 
@@ -174,8 +169,7 @@ The `validate-service` of type `LoadBalancer` has been assigned an external IP b
 
 ### Evidence 5.4: Validator API Tests
 
-<!-- PASTE SCREENSHOT: Terminal showing curl /health, a valid /validate response (valid: true), and an invalid /validate response (valid: false) -->
-![Validator API Tests](docs/task5-validator-tests.png)
+![Validator API Tests](docs/image-16.png)
 
 `GET /health` returns a healthy response. A valid order with `qty=2` returns `{"valid": true, "reason": "ok"}`. An order with `qty=999` (exceeding the 100-unit limit) returns `{"valid": false, "reason": "quantity exceeds limit"}`. Both the accept and reject paths are working correctly.
 
@@ -183,8 +177,7 @@ The `validate-service` of type `LoadBalancer` has been assigned an external IP b
 
 ### Evidence 5.5: Function App `VALIDATE_URL`
 
-<!-- PASTE SCREENSHOT: Azure Portal → Function App → Configuration → Application Settings showing VALIDATE_URL set to http://<EXTERNAL-IP>:8080/validate -->
-![VALIDATE_URL Setting](docs/task5-validate-url-setting.png)
+![Function App VALIDATE_URL](docs/image-17.png)
 
 The `VALIDATE_URL` application setting has been set on the Function App, pointing to `http://<AKS-EXTERNAL-IP>:8080/validate`. This allows `validate_activity` to reach the AKS-hosted validator at runtime without hardcoding the IP in code.
 
@@ -192,8 +185,7 @@ The `VALIDATE_URL` application setting has been set on the Function App, pointin
 
 ### Evidence 5.6: AKS Idle Behavior
 
-<!-- PASTE SCREENSHOT: AKS metrics in the Portal showing low/zero CPU usage while idle, OR `kubectl get pods` showing pod still Running -->
-![AKS Idle Behavior](docs/task5-aks-idle.png)
+![AKS Idle Behavior](docs/image-18.png)
 
 Unlike ACI, the AKS node continues running even when no orders are being processed. The pod remains in `Running` state and the node keeps billing. This is the fundamental operational difference between AKS (always-on, persistent endpoint) and ACI (per-invocation, exits after work is done).
 
@@ -203,17 +195,15 @@ Unlike ACI, the AKS node continues running even when no orders are being process
 
 ### Evidence 6.1: Blob Container
 
-<!-- PASTE SCREENSHOT: Azure Portal → Storage Account → Containers showing the `reports` blob container -->
-![Blob Container](docs/task6-blob-container.png)
+![Blob Container](docs/image-19.png)
 
-The `reports` blob container has been created in the `pa4<rollnum>` storage account. This is where the `report-job` ACI writes its generated PDF output after each successful order run.
+The `reports` blob container has been created in the `pa427100456` storage account. This is where the `report-job` ACI writes its generated PDF output after each successful order run.
 
 ---
 
 ### Evidence 6.2: Manual ACI Run
 
-<!-- PASTE SCREENSHOT: Terminal showing `az container show` output with instanceView.state: "Succeeded" for ci-report-test -->
-![ACI Show Output](docs/task6-aci-show.png)
+![Manual ACI Run](docs/image-20.png)
 
 The manually created ACI `ci-report-test` ran the `report-job:v1` image and transitioned to **Succeeded** state. The container has exited as expected — ACI's one-shot lifecycle means it terminates automatically after the job completes, with no idle billing.
 
@@ -221,8 +211,7 @@ The manually created ACI `ci-report-test` ran the `report-job:v1` image and tran
 
 ### Evidence 6.3: ACI Logs
 
-<!-- PASTE SCREENSHOT: Terminal showing `az container logs` output with the report-job's print statements (PDF generation and blob upload lines) -->
-![ACI Logs](docs/task6-aci-logs.png)
+![ACI Logs](docs/image-21.png)
 
 The container logs show the `report-job` printed its PDF generation progress and a confirmation that the file was uploaded to blob storage. This proves the container ran the report generation logic end-to-end and wrote its output successfully.
 
@@ -230,8 +219,7 @@ The container logs show the `report-job` printed its PDF generation progress and
 
 ### Evidence 6.4: Generated PDF
 
-<!-- PASTE SCREENSHOT: Azure Portal → Storage Account → Containers → reports showing TEST-001.pdf listed, OR the PDF opened from blob storage -->
-![Generated PDF in Blob](docs/task6-pdf-in-blob.png)
+![Generated PDF](docs/image-22.png)
 
 `TEST-001.pdf` is visible in the `reports` blob container. This confirms the ACI container was able to authenticate to blob storage via the managed identity and write its output — proving the full ACI → Blob write path is functional.
 
@@ -239,9 +227,7 @@ The container logs show the `report-job` printed its PDF generation progress and
 
 ### Evidence 6.5: Function App Managed Identity and IAM
 
-<!-- PASTE SCREENSHOT 1: Azure Portal → Function App → Identity → User assigned tab showing mi-pa4-<rollnum> attached -->
-<!-- PASTE SCREENSHOT 2 (optional): IAM blade showing the Contributor role assignment -->
-![Managed Identity](docs/task6-managed-identity.png)
+![Function App Managed Identity and IAM](docs/image-23.png)
 
 The user-assigned managed identity `mi-pa4-<rollnum>` has been attached to the Function App via the Identity → User assigned blade. This identity has been pre-provisioned by the instructor with the necessary permissions, allowing `report_activity` to create ACIs at runtime using `DefaultAzureCredential` — no secrets stored in code or config.
 
@@ -249,8 +235,8 @@ The user-assigned managed identity `mi-pa4-<rollnum>` has been attached to the F
 
 ### Evidence 6.6: Report App Settings
 
-<!-- PASTE SCREENSHOT: Azure Portal → Function App → Configuration showing REPORT_*, ACR_*, STORAGE_ACCOUNT_URL, SUBSCRIPTION_ID settings (with passwords masked) -->
-![Report App Settings](docs/task6-app-settings.png)
+![Report App Settings](docs/image-24.png)
+
 
 The Function App has been configured with all required settings. The `REPORT_IMAGE`, `ACR_SERVER`, `ACR_USERNAME`, and `ACR_PASSWORD` settings (password masked) allow `report_activity` to supply registry credentials when creating the ACI. `STORAGE_ACCOUNT_URL` tells the report-job container where to write its PDF. `REPORT_RG`, `REPORT_LOCATION`, and `SUBSCRIPTION_ID` are used by the Azure SDK client to create ACI resources in the correct subscription and location.
 
@@ -260,8 +246,7 @@ The Function App has been configured with all required settings. The `REPORT_IMA
 
 ### Evidence 7.1: Web App Wiring
 
-<!-- PASTE SCREENSHOT: Azure Portal → Web App → Configuration showing FUNCTION_START_URL and FUNCTION_STATUS_URL set -->
-![Web App Wiring](docs/task7-webapp-wiring.png)
+![Web App Wiring](docs/image-25.png)
 
 `FUNCTION_START_URL` is set to the HTTP starter URL including the function key, and `FUNCTION_STATUS_URL` is set to the Durable status query base URL. The frontend uses `FUNCTION_START_URL` to POST new orders and `FUNCTION_STATUS_URL` to poll orchestration status until it reaches `Completed` or `Failed`.
 
@@ -269,23 +254,18 @@ The Function App has been configured with all required settings. The `REPORT_IMA
 
 ### Evidence 7.2: Happy Path UI
 
-<!-- PASTE SCREENSHOT 1: The form filled out with a valid order (qty=2) before clicking Submit -->
-![Happy Path - Form](docs/task7-happy-form.png)
+![Happy Path UI](docs/image-26.png)
 
 The form is filled with a valid order: `qty=2`, a SKU, and a unique order ID. The quantity is well within the 100-unit limit so the validator will accept it.
 
-<!-- PASTE SCREENSHOT 2: Status panel showing "Running" with a live instance ID -->
-![Happy Path - Running](docs/task7-happy-running.png)
+![Happy Path UI](docs/image-28.png)
 
 Immediately after submission, the Status panel shows `Running` along with the live orchestration instance ID. The frontend is polling the Durable status URL every few seconds.
 
-<!-- PASTE SCREENSHOT 3: Status panel showing "Completed" with the report URL link -->
-![Happy Path - Completed](docs/task7-happy-completed.png)
+![Happy Path UI](docs/image-29.png)
 
 The orchestration reached `Completed` status and the UI displays the report URL pointing to the generated PDF in blob storage. The full pipeline — Web App → Durable Function → AKS validator → ACI report job → Blob Storage — completed successfully within ~60 seconds.
 
-<!-- PASTE SCREENSHOT 4 (optional): The downloaded PDF open in a viewer -->
-![Happy Path - PDF](docs/task7-happy-pdf.png)
 
 The PDF generated by the `report-job` container is accessible and can be downloaded directly from the blob URL returned in the UI.
 
@@ -293,23 +273,19 @@ The PDF generated by the `report-job` container is accessible and can be downloa
 
 ### Evidence 7.3: Backend Participation
 
-<!-- PASTE SCREENSHOT 1: Function App Monitor → Invocations showing the orchestration and both activities -->
-![Function App Monitor](docs/task7-funcapp-monitor.png)
+![Backend Participation](docs/image-30.png)
 
 The Function App invocation log shows the HTTP starter, orchestrator, `validate_activity`, and `report_activity` all executed for the same orchestration instance ID, confirming the full chain ran.
 
-<!-- PASTE SCREENSHOT 2: `az container list` showing the ACI spawned by report_activity (ci-report-<order_id>) -->
-![ACI Created](docs/task7-aci-created.png)
+![Backend Participation](docs/image-31.png)
 
 `az container list` shows an ACI named `ci-report-<order_id>` was created by `report_activity` during the run. After the job completed, the activity called `begin_delete` so the container was automatically cleaned up.
 
-<!-- PASTE SCREENSHOT 3: Blob container showing the new PDF matching the order ID -->
-![Blob PDF](docs/task7-blob-pdf.png)
+![Backend Participation](docs/image-32.png)
 
 The `reports` blob container now contains a PDF named `<order_id>.pdf` that matches the order submitted in the UI, confirming the ACI successfully wrote its output to blob storage.
 
-<!-- PASTE SCREENSHOT 4: AKS pod logs or AKS metrics showing validator received traffic -->
-![AKS Validator Traffic](docs/task7-aks-traffic.png)
+![Backend Participation](docs/image-33.png)
 
 AKS metrics or pod logs show the `validate-api` pod received and processed the HTTP POST from `validate_activity` during the run, confirming the AKS-hosted validator participated in the pipeline.
 
@@ -317,29 +293,28 @@ AKS metrics or pod logs show the `validate-api` pod received and processed the H
 
 ### Evidence 7.4: Reject Path UI
 
-<!-- PASTE SCREENSHOT 1: UI showing the rejection message for an order with qty > 100 -->
-![Reject Path UI](docs/task7-reject-ui.png)
+![Reject Path UI](docs/image-34.png)
 
 An order submitted with `qty=150` was rejected by the validator. The UI displays the rejection reason (`quantity exceeds limit`) returned by the orchestrator's `{status: rejected}` response.
 
-<!-- PASTE SCREENSHOT 2: `az container list` showing no ACI was created for this order -->
-![No ACI for Reject](docs/task7-reject-no-aci.png)
+![Reject Path UI](docs/image-35.png)
 
 `az container list` confirms no ACI was created for the rejected order ID. The orchestrator short-circuited correctly: because `validate_activity` returned `valid: false`, `report_activity` was never called.
 
-<!-- PASTE SCREENSHOT 3: Function App Monitor showing the orchestration completed with status: rejected output -->
-![Reject Path Monitor](docs/task7-reject-monitor.png)
+![Reject Path UI](docs/image-36.png)
 
 The Function App invocation log shows the orchestration for the rejected order completed **Successfully** (from the orchestrator's perspective — it ran to completion without throwing). The output payload contains `"status": "rejected"`, confirming the conditional branch worked as intended.
 
 ---
+## Overall Resource Group Screenshot
+![Overall Resource Group Screenshot](docs/image-37.png)
 
+---
 ## Task 8: Write-up and Architecture Diagram (5 points)
 
 ### Evidence 8.1: Architecture Diagram
 
-<!-- PASTE your architecture diagram image -->
-![Architecture Diagram](docs/task8-architecture-diagram.png)
+![Architecture Diagram](docs/architecture-diagram.png)
 
 The diagram shows the full TaskFlow pipeline: GitHub → App Service (CI/CD), browser → App Service → Durable Function (start + poll), Durable Function → AKS validator (HTTP `/validate`), Durable Function → ACI report job (Azure SDK, ephemeral per run), ACI → Blob Storage (PDF write), and ACR supplying images to the Function App, AKS, and ACI. The managed identity relationship between the Function App and the resource group (for ACI creation) is also shown.
 
@@ -378,7 +353,7 @@ The diagram shows the full TaskFlow pipeline: GitHub → App Service (CI/CD), br
 ### Question 8.5: Cost Review
 
 <!-- PASTE SCREENSHOT: Azure Portal → Cost Management → Cost Analysis scoped to rg-sp26-<rollnum> -->
-![Cost Management](docs/task8-cost-review.png)
+![Question 85 Cost Review](docs/task8-cost-review.png)
 
 Based on the Cost Management view scoped to `rg-sp26-<rollnum>`, the **AKS node** (`Standard_B2s` VM) is the single most expensive resource. It runs continuously from the moment the cluster is created until it is deleted, billing at the node's hourly VM rate regardless of whether any orders are processed. The App Service Plan (B1) is the second largest cost. ACI, ACR (Basic), and Blob Storage contribute minimal costs given their usage patterns in this assignment.
 
@@ -386,8 +361,24 @@ Based on the Cost Management view scoped to `rg-sp26-<rollnum>`, the **AKS node*
 
 ### Question 8.6: Challenges Faced
 
-**Challenge 1:** <!-- TODO: Describe a real issue you hit — e.g., ACR pull secret not working in AKS, ACI failing to start due to wrong registry credentials, managed identity not propagating, Durable orchestration stuck in Running, etc. — and how you debugged it (logs, CLI commands, Portal diagnostics). -->
+### Challenge 1: CI/CD Pipeline & GitHub Actions Deployment
+**Problem:** The initial GitHub Actions workflow failed during the deployment phase, preventing the latest code from reaching the Azure Web App and failing to push the Docker image to the ACR.
 
-**Challenge 2:** <!-- TODO: Describe a second real issue — e.g., GitHub Actions failing to deploy, `func start` not discovering handlers, blob container permission errors, AKS EXTERNAL-IP stuck at pending, etc. — and the steps you took to resolve it. -->
+*   **Root Cause:** The Service Principal lacked the specific `AcrPush` role required for the registry, and the deployment pathing in the workflow did not align with the updated resource names.
+*   **Debugging Logic:** 
+    *   Analyzed the GitHub Actions runner logs to identify the "Permission Denied" status.
+    *   Used `az role assignment create` to explicitly grant the Service Principal access to the ACR.
+    *   Manually updated the deployment paths and ACR image references within the Web App configuration to ensure the frontend could pull the correct image version.
 
 ---
+### Challenge 2: Regional DNS Resolution & Hashed Hostnames
+**Problem:** The Frontend (App Service) returned a `getaddrinfo ENOTFOUND` error when attempting to communicate with the Backend (Durable Function), breaking the orchestration flow.
+
+*   **Root Cause:** Due to regional policies in **UK West**, Azure assigned a unique, hashed default hostname (e.g., `pa4-27100456-fn-bgfwfrg2a7h5c0cz...`) rather than a standard predictable URL. The Frontend environment variables were pointing to an incorrect, non-existent address.
+*   **Debugging Logic:** 
+    *   Used the Azure CLI command `az functionapp show --query defaultHostName` to retrieve the official, live endpoint from the Azure control plane.
+    *   Updated the `FUNCTION_START_URL` and `FUNCTION_STATUS_URL` in the Web App application settings to match the hashed URL.
+
+---
+
+

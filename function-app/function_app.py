@@ -6,7 +6,7 @@ app = df.DFApp(http_auth_level=func.AuthLevel.FUNCTION)
 
 @app.route(route="orchestrators/my_orchestrator", methods=["POST"])
 @app.durable_client_input(client_name="client")
-async def http_starter(req: func.HttpRequest, client: df.DurableOrchestrationClient):
+async def http_starter(req: func.HttpRequest, client):
     order = req.get_json()
     instance_id = await client.start_new("my_orchestrator", client_input=order)
     return client.create_check_status_response(req, instance_id)
